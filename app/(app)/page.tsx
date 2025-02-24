@@ -2,7 +2,8 @@ import { headers as getHeaders } from "next/headers.js";
 import Image from "next/image";
 import config from "@/payload.config";
 import { getPayload } from "payload";
-import { Button } from "@/components/ui/button";
+import { FormName } from "@/components/Form/CMSForm";
+import CMSForm from "@/components/Form/CMSForm";
 
 export default async function Home() {
   const headers = await getHeaders();
@@ -34,34 +35,7 @@ export default async function Home() {
           <li>Save and see your changes instantly.</li>
         </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button>
-              <Image
-                className="dark:invert"
-                src="/vercel.svg"
-                alt="Vercel logomark"
-                width={20}
-                height={20}
-              />
-              Deploy now
-            </Button>
-          </a>
-          <Button variant="outline">
-            <a
-              className=""
-              href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Read our docs
-            </a>
-          </Button>
-        </div>
+        <CMSForm name={FormName.TestForm} />
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <a
