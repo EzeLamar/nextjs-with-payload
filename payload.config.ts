@@ -43,11 +43,19 @@ export default buildConfig({
         admin: {
           group: "Forms",
         },
+        access: {
+          read: () => true,
+          create: ({ req: { user } }) => !!user, // authenticated users only
+        }
       },
       formSubmissionOverrides: {
         admin: {
           group: "Forms",
         },
+        access: {
+          read: ({ req: { user } }) => !!user, // authenticated users only
+          create: ({ req: { user } }) => !!user, // authenticated users only
+        }
       },
       // see below for a list of available options
     }),
