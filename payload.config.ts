@@ -7,6 +7,8 @@ import { buildConfig } from "payload";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
+import { authjsPlugin } from "payload-authjs";
+import { authConfig } from "./auth.config";
 
 import { Users } from "@/collections/Users";
 import { Media } from "@/collections/Media";
@@ -46,7 +48,7 @@ export default buildConfig({
         access: {
           read: () => true,
           create: ({ req: { user } }) => !!user, // authenticated users only
-        }
+        },
       },
       formSubmissionOverrides: {
         admin: {
@@ -55,9 +57,12 @@ export default buildConfig({
         access: {
           read: ({ req: { user } }) => !!user, // authenticated users only
           create: ({ req: { user } }) => !!user, // authenticated users only
-        }
+        },
       },
       // see below for a list of available options
+    }),
+    authjsPlugin({
+      authjsConfig: authConfig,
     }),
     // storage-adapter-placeholder
   ],
