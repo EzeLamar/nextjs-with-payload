@@ -23,7 +23,7 @@ export const Select: React.FC<
         [x: string]: unknown;
       }>
     >;
-  } & SelectField
+  } & SelectField & { isLoading?: boolean }
 > = ({
   name,
   defaultValue,
@@ -33,6 +33,7 @@ export const Select: React.FC<
   options,
   required,
   width,
+  isLoading,
 }) => {
   return (
     <Width width={width}>
@@ -43,7 +44,7 @@ export const Select: React.FC<
           defaultValue={defaultValue}
           name={name}
           render={({ field: { onChange } }) => (
-            <SelectUI onValueChange={onChange} defaultValue={defaultValue}>
+            <SelectUI onValueChange={onChange} defaultValue={defaultValue} disabled={isLoading}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>

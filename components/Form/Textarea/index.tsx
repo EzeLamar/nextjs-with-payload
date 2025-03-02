@@ -21,7 +21,7 @@ export const Textarea: React.FC<
     >;
     register: UseFormRegister<unknown & FieldValues>;
     rows?: number;
-  } & TextField
+  } & TextField & { isLoading?: boolean }
 > = ({
   name,
   errors,
@@ -30,6 +30,7 @@ export const Textarea: React.FC<
   required: requiredFromProps,
   rows = 3,
   width,
+  isLoading,
 }) => {
   return (
     <Width width={width}>
@@ -37,6 +38,7 @@ export const Textarea: React.FC<
         <Label htmlFor={name}>{label}</Label>
         <TextAreaUI
           id={name}
+          disabled={isLoading}
           rows={rows}
           {...register(name, { required: requiredFromProps })}
         />

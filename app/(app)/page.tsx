@@ -6,7 +6,7 @@ import { FormName } from "@/components/Form/CMSForm";
 import CMSForm from "@/components/Form/CMSForm";
 import { getPayloadSession } from "payload-authjs";
 import { signIn, signOut } from "@/auth";
-import { Button } from "@/components/ui/button";
+import { SubmitButton } from "@/components/Auth/SubmitButton";
 
 export default async function Home() {
   const headers = await getHeaders();
@@ -27,7 +27,7 @@ export default async function Home() {
                   await signIn("github");
                 }}
               >
-                <Button type="submit">Signin with GitHub</Button>
+                <SubmitButton label="Signin with GitHub" />
               </form>
               <form
                 action={async () => {
@@ -35,9 +35,10 @@ export default async function Home() {
                   await signIn("google");
                 }}
               >
-                <Button className="bg-blue-900 hover:bg-blue-800" type="submit">
-                  Signin with Google
-                </Button>
+                <SubmitButton
+                  className="bg-blue-900 hover:bg-blue-800"
+                  label="Signin with Google"
+                />
               </form>
             </>
           ) : (
@@ -49,9 +50,7 @@ export default async function Home() {
                   await signOut();
                 }}
               >
-                <Button variant="destructive" type="submit">
-                  Logout
-                </Button>
+                <SubmitButton variant="destructive" label="Logout" />
               </form>
             </>
           )}

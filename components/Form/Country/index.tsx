@@ -24,8 +24,8 @@ export const Country: React.FC<
         [x: string]: unknown;
       }>
     >;
-  } & CountryField
-> = ({ name, control, errors, label, required, width }) => {
+  } & CountryField & { isLoading?: boolean }
+> = ({ name, control, errors, label, required, width, isLoading }) => {
   return (
     <Width width={width}>
       <div>
@@ -35,7 +35,7 @@ export const Country: React.FC<
           defaultValue={""}
           name={name}
           render={({ field: { onChange } }) => (
-            <SelectUI onValueChange={onChange}>
+            <SelectUI onValueChange={onChange} disabled={isLoading}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue />
               </SelectTrigger>
