@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import RichText from "../RichText";
 import { fields } from "./fields";
+import { Spinner } from "@/components/ui/spinner";
 
 export type Value = unknown;
 
@@ -138,7 +139,7 @@ export const FormBlock = (props: FormBlockType) => {
         <RichText content={confirmationMessage} />
       )}
       {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
-      {error && <div>{`${error.status || "500"}: ${error.message || ""}`}</div>}
+      {error && <div className="text-red-500">{`${error.status || "500"}: ${error.message || ""}`}</div>}
       {!hasSubmitted && (
         <form id={formID} onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-3">
@@ -152,6 +153,7 @@ export const FormBlock = (props: FormBlockType) => {
                     <React.Fragment key={index}>
                       <Field
                         form={formFromProps}
+                        isLoading={isLoading}
                         {...field}
                         {...formMethods}
                         control={control}
@@ -164,7 +166,8 @@ export const FormBlock = (props: FormBlockType) => {
                 return null;
               })}
           </div>
-          <Button className="mt-4" form={formID}>
+          <Button disabled={isLoading} className="mt-4" form={formID}>
+            <Spinner className="text-white" show={isLoading} />
             {submitButtonLabel}
           </Button>
         </form>

@@ -23,8 +23,8 @@ export const Checkbox: React.FC<
     getValues: unknown;
     register: UseFormRegister<unknown & FieldValues>;
     setValue: unknown;
-  } & CheckboxField
-> = ({ name, control, defaultValue, required, errors, label, width }) => {
+  } & CheckboxField & { isLoading?: boolean }
+> = ({ name, control, defaultValue, required, errors, label, width, isLoading }) => {
   return (
     <Width width={width}>
       <div>
@@ -35,7 +35,12 @@ export const Checkbox: React.FC<
           name={name}
           render={({ field: { onChange, value } }) => (
             <div className="flex flex-row gap-2">
-              <CheckboxUI id={name} checked={value} onCheckedChange={onChange} />
+              <CheckboxUI
+                id={name}
+                disabled={isLoading}
+                checked={value}
+                onCheckedChange={onChange}
+              />
               <Label htmlFor={name}>{label}</Label>
             </div>
           )}

@@ -1,5 +1,6 @@
 // storage-adapter-import-placeholder
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
 import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
@@ -25,6 +26,19 @@ export default buildConfig({
   },
   collections: [Users, Media],
   editor: lexicalEditor(),
+  email: nodemailerAdapter({
+    defaultFromAddress: "ezequiel.lamarquee@gmail.com",
+    defaultFromName: "Admin Eze",
+    // Nodemailer transportOptions
+    transportOptions: {
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    },
+  }),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),

@@ -16,8 +16,8 @@ export const Number: React.FC<
       }>
     >
     register: UseFormRegister<unknown & FieldValues>
-  } & TextField
-> = ({ name, defaultValue, errors, label, register, required: requiredFromProps, width }) => {
+  } & TextField & { isLoading?: boolean }
+> = ({ name, defaultValue, errors, label, register, required: requiredFromProps, width, isLoading }) => {
   return (
     <Width width={width}>
       <div>
@@ -26,6 +26,7 @@ export const Number: React.FC<
         </Label>
         <Input
           id={name}
+          disabled={isLoading}
           type="number"
           defaultValue={defaultValue}
           {...register(name, { required: requiredFromProps })}

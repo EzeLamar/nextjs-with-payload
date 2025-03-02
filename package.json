@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.21.0",
+    "@payloadcms/email-nodemailer": "^3.21.0",
     "@payloadcms/next": "^3.21.0",
     "@payloadcms/payload-cloud": "^3.21.0",
     "@payloadcms/plugin-form-builder": "^3.21.0",

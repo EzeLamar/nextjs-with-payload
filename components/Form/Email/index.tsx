@@ -20,14 +20,23 @@ export const Email: React.FC<
       }>
     >;
     register: UseFormRegister<unknown & FieldValues>;
-  } & EmailField
-> = ({ name, errors, label, register, required: requiredFromProps, width }) => {
+  } & EmailField & { isLoading?: boolean }
+> = ({
+  name,
+  errors,
+  label,
+  register,
+  required: requiredFromProps,
+  isLoading,
+  width,
+}) => {
   return (
     <Width width={width}>
       <div>
         <Label htmlFor={name}>{label}</Label>
         <Input
           id={name}
+          disabled={isLoading}
           type="text"
           placeholder="Email"
           {...register(name, {
