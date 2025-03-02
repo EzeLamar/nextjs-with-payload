@@ -13,6 +13,7 @@ import { authConfig } from "./auth.config";
 
 import { Users } from "@/collections/Users";
 import { Media } from "@/collections/Media";
+import { sendCalendarInvite } from "@/collections/actions/SendCalendarInvite";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -71,6 +72,24 @@ export default buildConfig({
         access: {
           read: ({ req: { user } }) => !!user, // authenticated users only
           create: ({ req: { user } }) => !!user, // authenticated users only
+        },
+        hooks: {
+          afterChange: [
+            async ({ req: { payload }, operation, doc }) => {
+              if (operation === "create") {
+                const toEmail = doc.submissionData.find(
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  (data: any) => data.field === "email"
+                )?.value;
+
+                // Call the function to send the invite
+                await sendCalendarInvite({
+                  payload: payload,
+                  toEmail: toEmail,
+                });
+              }
+            },
+          ],
         },
       },
       // see below for a list of available options
