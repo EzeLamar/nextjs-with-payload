@@ -1,60 +1,76 @@
-import { headers as getHeaders } from "next/headers.js";
 import Image from "next/image";
-import config from "@/payload.config";
-import { getPayload } from "payload";
 import { FormName } from "@/components/Form/CMSForm";
 import CMSForm from "@/components/Form/CMSForm";
 import { getPayloadSession } from "payload-authjs";
-import { signIn, signOut } from "@/auth";
+import {
+  signIn as adminsSignIn,
+  signOut as adminsSignOut,
+} from "@/auth.admins";
+import {
+  signIn as customersSignIn,
+  signOut as customersSignOut,
+} from "@/auth.customers";
+
 import { SubmitButton } from "@/components/Auth/SubmitButton";
+import { CUSTOMERS } from "@/collections/Customers";
+import { ADMINS } from "@/collections/Admins";
 
 export default async function Home() {
-  const headers = await getHeaders();
-  const payloadConfig = await config;
-  const payload = await getPayload({ config: payloadConfig });
-  const { user } = await payload.auth({ headers });
-  const session = await getPayloadSession();
+  const customerSession = await getPayloadSession({
+    userCollectionSlug: CUSTOMERS,
+  });
+  const adminSession = await getPayloadSession({
+    userCollectionSlug: ADMINS,
+  });
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <>
-          {!session ? (
-            <>
-              <form
-                action={async () => {
-                  "use server";
-                  await signIn("github");
-                }}
-              >
-                <SubmitButton label="Signin with GitHub" />
-              </form>
-              <form
-                action={async () => {
-                  "use server";
-                  await signIn("google");
-                }}
-              >
-                <SubmitButton
-                  className="bg-blue-900 hover:bg-blue-800"
-                  label="Signin with Google"
-                />
-              </form>
-            </>
-          ) : (
-            <>
-              <pre>Welcome {JSON.stringify(session?.user.email)}!</pre>
-              <form
-                action={async () => {
-                  "use server";
-                  await signOut();
-                }}
-              >
-                <SubmitButton variant="destructive" label="Logout" />
-              </form>
-            </>
-          )}
-        </>
+        {!adminSession ? (
+          <form
+            action={async () => {
+              "use server";
+              await adminsSignIn("github");
+            }}
+          >
+            <SubmitButton label="Signin as Admin" />
+          </form>
+        ) : (
+          <>
+            <pre>Welcome {JSON.stringify(adminSession?.user.email)}!</pre>
+            <form
+              action={async () => {
+                "use server";
+                await adminsSignOut();
+              }}
+            >
+              <SubmitButton variant="destructive" label="Logout" />
+            </form>
+          </>
+        )}
+
+        {!customerSession ? (
+          <form
+            action={async () => {
+              "use server";
+              await customersSignIn("google");
+            }}
+          >
+            <SubmitButton className="bg-blue-800 hover:bg-blue-900" label="Signin as Customer" />
+          </form>
+        ) : (
+          <>
+            <pre>Welcome {JSON.stringify(customerSession?.user.email)}!</pre>
+            <form
+              action={async () => {
+                "use server";
+                await customersSignOut();
+              }}
+            >
+              <SubmitButton variant="destructive" label="Logout" />
+            </form>
+          </>
+        )}
 
         <Image
           className="dark:invert"
@@ -65,8 +81,8 @@ export default async function Home() {
           priority
         />
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          {!user && <h1>Welcome to your new project.</h1>}
-          {user && <h1>Welcome back, {user.email}</h1>}
+          {/* {!user && <h1>Welcome to your new project.</h1>}
+          {user && <h1>Welcome back, {user.email}</h1>} */}
           <li className="mb-2">
             Get started by editing{" "}
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
