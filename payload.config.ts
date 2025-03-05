@@ -9,9 +9,12 @@ import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
 import { authjsPlugin } from "payload-authjs";
-import { authConfig } from "./auth.config";
+import { adminsAuthConfig } from "@/auth.admins.config";
+import { customersAuthConfig } from "@/auth.customers.config";
 
-import { Users } from "@/collections/Users";
+// import { Users } from "@/collections/Users";
+import Admins, { ADMINS } from "@/collections/Admins";
+import Customers, { CUSTOMERS } from "@/collections/Customers";
 import { Media } from "@/collections/Media";
 import { sendCalendarInvite } from "@/collections/actions/SendCalendarInvite";
 
@@ -20,12 +23,12 @@ const dirname = path.dirname(filename);
 
 export default buildConfig({
   admin: {
-    user: Users.slug,
+    user: ADMINS,
     importMap: {
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Admins, Customers, Media],
   editor: lexicalEditor(),
   email: nodemailerAdapter({
     defaultFromAddress: "ezequiel.lamarquee@gmail.com",
@@ -94,8 +97,15 @@ export default buildConfig({
       },
       // see below for a list of available options
     }),
+    // Admins Auth Config
     authjsPlugin({
-      authjsConfig: authConfig,
+      userCollectionSlug: ADMINS,
+      authjsConfig: adminsAuthConfig,
+    }),
+    // Admins Auth Config
+    authjsPlugin({
+      userCollectionSlug: CUSTOMERS,
+      authjsConfig: customersAuthConfig,
     }),
     // storage-adapter-placeholder
   ],
