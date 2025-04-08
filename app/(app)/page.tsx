@@ -37,7 +37,7 @@ export default async function Home() {
           </form>
         ) : (
           <>
-            <pre>Welcome {JSON.stringify(adminSession?.user.email)}!</pre>
+            <pre>{`Welcome Admin "${adminSession?.user.name}"!`}</pre>
             <form
               action={async () => {
                 "use server";
@@ -60,7 +60,7 @@ export default async function Home() {
           </form>
         ) : (
           <>
-            <pre>Welcome {JSON.stringify(customerSession?.user.email)}!</pre>
+            <pre>{`Welcome Customer "${customerSession?.user.email}"!`}</pre>
             <form
               action={async () => {
                 "use server";

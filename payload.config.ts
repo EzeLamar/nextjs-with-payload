@@ -12,7 +12,6 @@ import { authjsPlugin } from "payload-authjs";
 import { adminsAuthConfig } from "@/auth.admins.config";
 import { customersAuthConfig } from "@/auth.customers.config";
 
-// import { Users } from "@/collections/Users";
 import Admins, { ADMINS } from "@/collections/Admins";
 import Customers, { CUSTOMERS } from "@/collections/Customers";
 import { Media } from "@/collections/Media";
@@ -102,11 +101,10 @@ export default buildConfig({
       userCollectionSlug: ADMINS,
       authjsConfig: adminsAuthConfig,
     }),
-    // Admins Auth Config
+    // Customers Auth Config
     authjsPlugin({
       userCollectionSlug: CUSTOMERS,
       authjsConfig: customersAuthConfig,
     }),
-    // storage-adapter-placeholder
   ],
 });
